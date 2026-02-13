@@ -1,0 +1,8 @@
+Creating or updateing a button:
+	
+	1) Add new button to enum list
+	2) Add new button ID to the *ControlIdName function
+	3) UPdate the MainWndProc funtion: 
+		>update the WM_CREATE case with the info to create the button
+		>update the WM_COMMAND case with any behavior the button may have/cause, such as when the button is clicked
+	
