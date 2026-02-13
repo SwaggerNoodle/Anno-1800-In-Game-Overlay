@@ -154,6 +154,7 @@ static const wchar_t *ControlIdName(int id) {
 	switch(id) {
 		case ID_BTN_HELLO:	return L"ID_BTN_HELLO";
 		case ID_BTN_QUIT:	return L"ID_BTN_QUIT";
+		case ID_BTN_TEST:	return L"ID_BTN_TEST";
 		default:		return L"(unknown control id)";
 	}
 }
@@ -385,7 +386,8 @@ static LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 
 			/*
 			 * HWND parent : hwnd
-			 * int controlId : L"Quit"
+			 * int controlId : ID_BTN_QUIT
+			 * const wchar_t *text : L"Quit"
 			 * int x: 20
 			 * int y: 60
 			 * int width: 120
@@ -395,6 +397,21 @@ static LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			if (!btnQuit){
 				ShowLastErrorBox(hwnd, L"CreateWindowExW (Quit Button)");
 			}
+
+			/*
+			 * HWND parent : hwnd
+			 * int controlId : ID_BTN_TEST
+			 * const wchar_t *text : L"test"
+			 * int x: 20
+			 * int y: 100
+			 * int width: 120
+			 * int height: 32
+			 */
+			HWND btnTest	= CreatePushButton(hwnd, ID_BTN_TEST, L"test",		20, 100, 120, 32);
+			if (!btnTest){
+				ShowLastErrorBox(hwnd, L"CreateWindowExW (test Button)");
+			}
+
 			//if returned 0 then WM_CREATE was handled sucsessfully
 			return 0;
 		}
@@ -439,6 +456,20 @@ static LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				else if (ci.controlId == ID_BTN_QUIT) {
 					//begins window destruction which will later trigger "WM_DESTROY"
 					DestroyWindow(hwnd);
+					return 0;
+				}
+				//Checks the control ID and returns true if its "ID_BTN_TEST"
+				else if (ci.controlId == ID_BTN_TEST){
+					/*
+					 * MessageBoxW creates a popup window based on the given parameters:
+					 * "HWND hwnd =" hwnd : handle to the owner of the window of the messagebox to be created
+					 * "LPCTSTR lpText =" L"Test button sucsessful" : the message to be displayed 
+					 * "LPCTSTR lpCaption =" L"TestWindow" : the dialog box title
+					 * "UINT uType =" MB_OK | MB_ICONINFORMATION
+					 * 			>MB_OK : The message box contains one push button: OK (the default)
+					 * 			>MB_ICONINFORMATION : An icon consisting of a lowercase "i" in a circle appears in the message box
+					 */
+					MessageBoxW(hwnd, L"Test button sucsessful", L"TestWindow", MB_OK | MB_ICONINFORMATION);
 					return 0;
 				}
 			}
