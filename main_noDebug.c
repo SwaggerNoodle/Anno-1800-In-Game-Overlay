@@ -1,13 +1,25 @@
 #define WIN32_LEAN_AND_MEAN
+#define PUSHBUTTON (WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON)
+#define FRAMEBUTTON (WS_CHILD | WS_VISIBLE | BS_GROUPBOX)
+#define TEXTFIELD (WS_CHILD | WS_VISIBLE | WS_BORDER | ES_NUMBER | ES_AUTOHSCROLL)
+
+#define BUTTON (L"BUTTON")
+#define EDIT (L"EDIT")
 
 #include <windows.h>
 #include <stdio.h>
 #include <stdarg.h>
 #include <strsafe.h>
+#include <commctrl.h>
 
 
 enum {
-	ID_BTN_TEST = 1001
+	ID_BTN_TEST = 1001,
+
+	ID_FRM_SetHousingFrame = 2001,
+
+	ID_FLD_HousingWidth = 3001,
+	ID_FLD_HousingLength = 3002
 };
 
 
@@ -114,7 +126,7 @@ static BOOL RegisterMainWindowClass(HINSTANCE hInstance){
  * int width : the width of the button itself
  * int height : the height of the button itself
  */
-static HWND CreatePushButton(HWND parent, int controlId, const wchar_t *text, int x, int y, int width, int height){
+static HWND CreateButton(HWND parent, int controlId, const wchar_t *text, int x, int y, int width, int height){
 	
 	/* Int the CreateWindowExW function, the parameter HMENU is used differently depending on window type;
 	 * 	>For a top-level window, HMENU is its menu handle.
@@ -123,14 +135,29 @@ static HWND CreatePushButton(HWND parent, int controlId, const wchar_t *text, in
 	 * INT_PTR : iteger type the size of a pointer (safe on 32/64-bit)
 	 */
 	HMENU idAsMenuHandle = (HMENU)(INT_PTR)controlId;
-
-
+	
+	DWORD style = 0;
+	LPCWSTR class = NULL;
+	
+	if (controlId < 2000){
+		style = PUSHBUTTON;
+		class = BUTTON;
+	}
+	else if (controlId < 3000){
+		style = FRAMEBUTTON;
+		class = BUTTON;
+	}
+	else if (controlId < 4000){
+		style = TEXTFIELD;
+		class = EDIT;
+	}
+	
 	return CreateWindowExW(
-		
+	
 	/*"dwExStyle   = */ 0,					
-	/*"lpClassName = */ L"BUTTON", 
+	/*"lpClassName = */ class, 
 	/*"lpWindowName= */ text,
-	/*"dwStyle     = */ WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+	/*"dwStyle     = */ style,
 	/*"x           = */ x,
 	/*"y           = */ y,
 	/*"width       = */ width,
@@ -140,7 +167,6 @@ static HWND CreatePushButton(HWND parent, int controlId, const wchar_t *text, in
 	/*"hInstance   = */ g_hInstance,
 	/*"lpParam     = */ NULL
 	);
-
 }
 
 
@@ -181,7 +207,46 @@ static LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			 * int width : 100
 			 * int height : 32
 			 */
-			CreatePushButton(hwnd, ID_BTN_TEST, L"Test Button", 20, 20, 120, 32);
+			//CreateButton(hwnd, ID_BTN_TEST, L"Test Button", 20, 20, 120, 32);
+			
+			/* HWND parent : hwnd
+			 * int controlId : ID_BTN_SetHousingFrame
+			 * const wchar_t *text : NULL
+			 * int x : 15
+			 * int y : 15
+			 * int width : 130
+			 * int height : 64
+			 */
+			CreateButton(hwnd, ID_FRM_SetHousingFrame, NULL, 15, 15, 130, 64);
+			
+			/* HWND parent : hwnd
+			 * int controlId : ID_FLD_HousingWidth
+			 * const wchar_t *text : L"Width"
+			 * int x : 30
+			 * int y : 30
+			 * int width : 50
+			 * int height : 20
+			 */
+			CreateButton(hwnd, ID_FLD_HousingWidth, L"Width", 30, 30, 50, 20);
+			/* HWND parent : hwnd
+                         * int controlId : ID_FLD_HousingLength
+                         * const wchar_t *text : L"Length"
+                         * int x : 80
+                         * int y : 30
+                         * int width : 50
+                         * int height : 20
+                         */
+			CreateButton(hwnd, ID_FLD_HousingLength, L"Length", 80, 30, 50, 20);
+
+			/* HWND parent : hwnd
+                         * int controlId 
+                         * const wchar_t *text : L"Length"
+                         * int x : 80
+                         * int y : 30
+                         * int width : 50
+                         * int height : 20
+                         */
+			//CreateButton
 			return 0;
 		}
 		
@@ -230,6 +295,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	//Stores hInstance as a global variable.
 	g_hInstance = hInstance;
+	
+	INITCOMMONCONTROLSEX icc;
+	ZeroMemory(&icc, sizeof(icc));
+	icc.dwSize = sizeof(icc);
+	icc.dwICC = ICC_UPDOWN_CLASS;
+	InitCommonControlsEx(&icc);
 
 	if (!RegisterMainWindowClass(hInstance)){
 		return 0;
