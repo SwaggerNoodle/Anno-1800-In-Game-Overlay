@@ -232,6 +232,16 @@ static LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		//This msg indicates that a window needs to be created
 		case WM_CREATE:{
 			
+			/*HWND hwnd_ = CreateButton(*/
+                        /*"HWND parent        ="*/ 
+                        /*"int controlId      ="*/ 
+                        /*"const wchar_t *text="*/ 
+                        /*"int x              ="*/ 
+                        /*"int y              ="*/ 
+                        /*"int width          ="*/ 
+                        /*"int height         ="*/ 
+                        /*"BuddyInfo *buddy   ="*/
+
 			/* HWND parent : hwnd
 			 * int controlId : ID_BTN_TEST
 			 * const wchar_t *text : L"Test Button"
@@ -243,56 +253,59 @@ static LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			//CreateButton(hwnd, ID_BTN_TEST, L"Test Button", 20, 20, 120, 32, NULL);
 			
 
-			/* HWND parent : hwnd
-			 * int controlId : ID_BTN_SetHousingFrame
-			 * const wchar_t *text : NULL
-			 * int x : 15
-			 * int y : 15
-			 * int width : 130
-			 * int height : 64
-			 */
-			HWND hwnd_SetHousingFrame = CreateButton(hwnd, ID_FRM_SetHousingFrame, NULL, 15, 15, 130, 64, NULL);
+			/*HWND hwnd_SetHousingFrame = */CreateButton(
+			/*"HWND parent        ="*/ hwnd, 
+			/*"int controlId      ="*/ ID_FRM_SetHousingFrame, 
+			/*"const wchar_t *text="*/ NULL, 
+			/*"int x 	      ="*/ 15, 
+			/*"int y 	      ="*/ 10, 
+			/*"int width 	      ="*/ 110, 
+			/*"int height 	      ="*/ 90, 
+			/*"BuddyInfo *buddy   ="*/ NULL);
 			
 
-			/* HWND parent : hwnd
-			 * int controlId : ID_FLD_HousingWidth
-			 * const wchar_t *text : L"Width"
-			 * int x : 30
-			 * int y : 30
-			 * int width : 50
-			 * int height : 20
-			 */
-			HWND hwnd_HousingWidth = CreateButton(hwnd, ID_FLD_HousingWidth, L"Width", 30, 30, 50, 20, NULL);
 
 
-			/* HWND parent : hwnd
-                         * int controlId : ID_FLD_HousingLength
-                         * const wchar_t *text : L"Length"
-                         * int x : 80
-                         * int y : 30
-                         * int width : 50
-                         * int height : 20
-                         */
-			HWND hwnd_HousingLength = CreateButton(hwnd, ID_FLD_HousingLength, L"Length", 80, 30, 50, 20, NULL);
+			HWND hwnd_HousingWidth = CreateButton(
+			/*"HWND parent        ="*/ hwnd, 
+			/*"int controlId      ="*/ ID_FLD_HousingWidth,
+        		/*"const wchar_t *text="*/ L"Width",
+			/*"int x              ="*/ 30,
+                        /*"int y              ="*/ 50,
+                        /*"int width          ="*/ 30,
+                        /*"int height         ="*/ 20,
+                        /*"BuddyInfo *buddy   ="*/ NULL);
+
+
+			HWND hwnd_HousingLength = CreateButton(
+	      		/*"HWND parent        ="*/ hwnd,
+                        /*"int controlId      ="*/ ID_FLD_HousingLength,
+                        /*"const wchar_t *text="*/ L"Length",
+                        /*"int x              ="*/ 80,
+                        /*"int y              ="*/ 50,
+                        /*"int width          ="*/ 30,
+                        /*"int height         ="*/ 20,
+                        /*"BuddyInfo *buddy   ="*/ NULL);
+
+
 
 
                         BuddyInfo SPN_HousingWidth;
-                        
+
 			SPN_HousingWidth.buddyHWND = hwnd_HousingWidth;
 			SPN_HousingWidth.minVal = 1;
 			SPN_HousingWidth.maxVal = 2;
 			SPN_HousingWidth.initialVal = 1;
-
-			/* HWND parent : hwnd 
-                         * int controlId : ID_SPN_HousingWidth
-                         * const wchar_t *text : NULL
-                         * int x : 30
-                         * int y : 50
-                         * int width : 50
-                         * int height : 20
-			 * struct buddy : SPN_HousingWidth
-			 */	
-			HWND hwnd_HousingWidthSPN = CreateButton(hwnd, ID_SPN_HousingWidth, NULL, 30, 50, 50, 20, &SPN_HousingWidth);
+	
+			/*HWND hwnd_HousingWidthSPN = */CreateButton(
+	                /*"HWND parent        ="*/ hwnd,
+                        /*"int controlId      ="*/ ID_SPN_HousingWidth,
+                        /*"const wchar_t *text="*/ NULL,
+                        /*"int x              ="*/ 35,
+                        /*"int y              ="*/ 70,
+                        /*"int width          ="*/ 50,
+                        /*"int height         ="*/ 20,
+                        /*"BuddyInfo *buddy   ="*/ &SPN_HousingWidth);
 
 
 			BuddyInfo SPN_HousingLength;
@@ -302,11 +315,45 @@ static LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			SPN_HousingLength.maxVal = 12;
 			SPN_HousingLength.initialVal = 8;
 
-			HWND hwnd_HousingLengthSPN = CreateButton(hwnd, ID_SPN_HousingLength, NULL, 80, 50, 50, 20, &SPN_HousingLength);
+			/*HWND hwnd_HousingLengthSPN = */CreateButton(
+                        /*"HWND parent        ="*/ hwnd,
+                        /*"int controlId      ="*/ ID_SPN_HousingLength,
+                        /*"const wchar_t *text="*/ NULL,
+                        /*"int x              ="*/ 85,
+                        /*"int y              ="*/ 70,
+                        /*"int width          ="*/ 50,
+                        /*"int height         ="*/ 20,
+                        /*"BuddyInfo *buddy   ="*/ &SPN_HousingLength);
+
+
+
+			
+			/*HWND hwnd_HousingWidthLBL = */CreateButton(
+			/*"HWND parent        ="*/ hwnd,
+                        /*"int controlId      ="*/ ID_LBL_HousingWidth,
+                        /*"const wchar_t *text="*/ L"Width",
+                        /*"int x              ="*/ 25,
+                        /*"int y              ="*/ 30,
+                        /*"int width          ="*/ 40,
+                        /*"int height         ="*/ 20,
+                        /*"BuddyInfo *buddy   ="*/ NULL);
+			
+			
+			/*HWND hwnd_HousingLengthLBL = */CreateButton(
+                        /*"HWND parent        ="*/ hwnd,
+                        /*"int controlId      ="*/ ID_LBL_HousingLength,
+                        /*"const wchar_t *text="*/ L"Length",
+                        /*"int x              ="*/ 75,
+                        /*"int y              ="*/ 30,
+                        /*"int width          ="*/ 45,
+                        /*"int height         ="*/ 20,
+                        /*"BuddyInfo *buddy   ="*/ NULL);
+
 
 			return 0;
 		}
 		
+
 		case WM_COMMAND:{
 			
 			/* ci.controlId   = (int)LOWORD(wParam)
