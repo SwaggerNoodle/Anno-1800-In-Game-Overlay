@@ -2,9 +2,13 @@
 #define PUSHBUTTON (WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON)
 #define FRAMEBUTTON (WS_CHILD | WS_VISIBLE | BS_GROUPBOX)
 #define TEXTFIELD (WS_CHILD | WS_VISIBLE | WS_BORDER | ES_NUMBER | ES_AUTOHSCROLL)
+#define STATICLABEL (WS_CHILD | WS_VISIBLE)
+#define SPINNERBUTTON (WS_CHILD | WS_VISIBLE | UDS_SETBUDDYINT | UDS_ARROWKEYS | UDS_NOTHOUSANDS)
 
 #define BUTTON (L"BUTTON")
 #define EDIT (L"EDIT")
+#define STATIC (L"STATIC")
+#define SPINNER (UPDOWN_CLASSW)
 
 #include <windows.h>
 #include <stdio.h>
@@ -19,7 +23,13 @@ enum {
 	ID_FRM_SetHousingFrame = 2001,
 
 	ID_FLD_HousingWidth = 3001,
-	ID_FLD_HousingLength = 3002
+	ID_FLD_HousingLength = 3002,
+
+	ID_LBL_HousingWidth = 4001,
+	ID_LBL_HousingLength = 4002,
+
+	ID_SPN_HousingWidth = 5001,
+	ID_SPN_HousingLength = 5002
 };
 
 
@@ -51,6 +61,12 @@ typedef struct CommandInfo{
 	HWND controlHwnd;
 } CommandInfo;
 
+typedef struct buddyInfo{
+	HWND buddyHWND;
+	int minVal;
+	int maxVal;
+	int initialVal;
+} BuddyInfo;
 
 /* When Windows creates/sends a command it stres the information for the command in WPARAM and LPARAM.
  * The DecodeWmCommand takes these two parameters, extracts the information and then stores it in the 
@@ -126,7 +142,7 @@ static BOOL RegisterMainWindowClass(HINSTANCE hInstance){
  * int width : the width of the button itself
  * int height : the height of the button itself
  */
-static HWND CreateButton(HWND parent, int controlId, const wchar_t *text, int x, int y, int width, int height){
+static HWND CreateButton(HWND parent, int controlId, const wchar_t *text, int x, int y, int width, int height, BuddyInfo *buddy){
 	
 	/* Int the CreateWindowExW function, the parameter HMENU is used differently depending on window type;
 	 * 	>For a top-level window, HMENU is its menu handle.
@@ -135,7 +151,7 @@ static HWND CreateButton(HWND parent, int controlId, const wchar_t *text, int x,
 	 * INT_PTR : iteger type the size of a pointer (safe on 32/64-bit)
 	 */
 	HMENU idAsMenuHandle = (HMENU)(INT_PTR)controlId;
-	
+
 	DWORD style = 0;
 	LPCWSTR class = NULL;
 	
@@ -151,13 +167,22 @@ static HWND CreateButton(HWND parent, int controlId, const wchar_t *text, int x,
 		style = TEXTFIELD;
 		class = EDIT;
 	}
+	else if (controlId < 5000){
+		style = STATICLABEL;
+		class = STATIC;
+	}
+	else if (controlId < 6000){
+		style = SPINNERBUTTON;
+		class = SPINNER;
+	}
+
 	
-	return CreateWindowExW(
+	HWND button = CreateWindowExW(
 	
 	/*"dwExStyle   = */ 0,					
-	/*"lpClassName = */ class, 
+	/*"lpClassName = */ class, //macro
 	/*"lpWindowName= */ text,
-	/*"dwStyle     = */ style,
+	/*"dwStyle     = */ style, //macro
 	/*"x           = */ x,
 	/*"y           = */ y,
 	/*"width       = */ width,
@@ -167,6 +192,14 @@ static HWND CreateButton(HWND parent, int controlId, const wchar_t *text, int x,
 	/*"hInstance   = */ g_hInstance,
 	/*"lpParam     = */ NULL
 	);
+
+	if (buddy){
+		SendMessageW(button, UDM_SETBUDDY, (WPARAM)buddy->buddyHWND, 0);
+		SendMessageW(button, UDM_SETRANGE32, (WPARAM)buddy->minVal, (LPARAM)buddy->maxVal);
+		SendMessageW(button, UDM_SETPOS32, 0, (LPARAM)buddy->initialVal);
+	}
+
+	return button;
 }
 
 
@@ -207,8 +240,9 @@ static LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			 * int width : 100
 			 * int height : 32
 			 */
-			//CreateButton(hwnd, ID_BTN_TEST, L"Test Button", 20, 20, 120, 32);
+			//CreateButton(hwnd, ID_BTN_TEST, L"Test Button", 20, 20, 120, 32, NULL);
 			
+
 			/* HWND parent : hwnd
 			 * int controlId : ID_BTN_SetHousingFrame
 			 * const wchar_t *text : NULL
@@ -217,8 +251,9 @@ static LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			 * int width : 130
 			 * int height : 64
 			 */
-			CreateButton(hwnd, ID_FRM_SetHousingFrame, NULL, 15, 15, 130, 64);
+			HWND hwnd_SetHousingFrame = CreateButton(hwnd, ID_FRM_SetHousingFrame, NULL, 15, 15, 130, 64, NULL);
 			
+
 			/* HWND parent : hwnd
 			 * int controlId : ID_FLD_HousingWidth
 			 * const wchar_t *text : L"Width"
@@ -227,7 +262,9 @@ static LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			 * int width : 50
 			 * int height : 20
 			 */
-			CreateButton(hwnd, ID_FLD_HousingWidth, L"Width", 30, 30, 50, 20);
+			HWND hwnd_HousingWidth = CreateButton(hwnd, ID_FLD_HousingWidth, L"Width", 30, 30, 50, 20, NULL);
+
+
 			/* HWND parent : hwnd
                          * int controlId : ID_FLD_HousingLength
                          * const wchar_t *text : L"Length"
@@ -236,17 +273,37 @@ static LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
                          * int width : 50
                          * int height : 20
                          */
-			CreateButton(hwnd, ID_FLD_HousingLength, L"Length", 80, 30, 50, 20);
+			HWND hwnd_HousingLength = CreateButton(hwnd, ID_FLD_HousingLength, L"Length", 80, 30, 50, 20, NULL);
 
-			/* HWND parent : hwnd
-                         * int controlId 
-                         * const wchar_t *text : L"Length"
-                         * int x : 80
-                         * int y : 30
+
+                        BuddyInfo SPN_HousingWidth;
+                        
+			SPN_HousingWidth.buddyHWND = hwnd_HousingWidth;
+			SPN_HousingWidth.minVal = 1;
+			SPN_HousingWidth.maxVal = 2;
+			SPN_HousingWidth.initialVal = 1;
+
+			/* HWND parent : hwnd 
+                         * int controlId : ID_SPN_HousingWidth
+                         * const wchar_t *text : NULL
+                         * int x : 30
+                         * int y : 50
                          * int width : 50
                          * int height : 20
-                         */
-			//CreateButton
+			 * struct buddy : SPN_HousingWidth
+			 */	
+			HWND hwnd_HousingWidthSPN = CreateButton(hwnd, ID_SPN_HousingWidth, NULL, 30, 50, 50, 20, &SPN_HousingWidth);
+
+
+			BuddyInfo SPN_HousingLength;
+
+			SPN_HousingLength.buddyHWND = hwnd_HousingLength;
+			SPN_HousingLength.minVal = 1;
+			SPN_HousingLength.maxVal = 12;
+			SPN_HousingLength.initialVal = 8;
+
+			HWND hwnd_HousingLengthSPN = CreateButton(hwnd, ID_SPN_HousingLength, NULL, 80, 50, 50, 20, &SPN_HousingLength);
+
 			return 0;
 		}
 		
