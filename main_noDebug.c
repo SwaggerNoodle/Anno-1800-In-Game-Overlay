@@ -1,5 +1,5 @@
 #define WIN32_LEAN_AND_MEAN
-#define PUSHBUTTON (WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON)
+#define PUSHBUTTON (WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_MULTILINE | BS_CENTER | BS_VCENTER)
 #define FRAMEBUTTON (WS_CHILD | WS_VISIBLE | BS_GROUPBOX)
 #define TEXTFIELD (WS_CHILD | WS_VISIBLE | WS_BORDER | ES_NUMBER | ES_AUTOHSCROLL)
 #define STATICLABEL (WS_CHILD | WS_VISIBLE)
@@ -19,8 +19,11 @@
 
 enum {
 	ID_BTN_TEST = 1001,
+	ID_BTN_FarmerBlockInc = 1002,
+	ID_BTN_FarmerBlockDec = 1003,
 
 	ID_FRM_SetHousingFrame = 2001,
+	ID_FRM_AdjustHousingFrame = 2002,
 
 	ID_FLD_HousingWidth = 3001,
 	ID_FLD_HousingLength = 3002,
@@ -214,7 +217,7 @@ static HWND CreateMainWindow(HINSTANCE hInstance){
 	/*"x	       =*/ CW_USEDEFAULT,
 	/*"y	       =*/ CW_USEDEFAULT,
 	/*"width       =*/ 360,
-	/*"height      =*/ 180,
+	/*"height      =*/ 250,
 	/*"hwndParent  =*/ NULL,
 	/*"hMenu       =*/ NULL,
 	/*"hInstance   =*/ hInstance,
@@ -252,8 +255,7 @@ static LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			 */
 			//CreateButton(hwnd, ID_BTN_TEST, L"Test Button", 20, 20, 120, 32, NULL);
 			
-
-			/*HWND hwnd_SetHousingFrame = */CreateButton(
+			HWND hwnd_SetHousingFrame = CreateButton(
 			/*"HWND parent        ="*/ hwnd, 
 			/*"int controlId      ="*/ ID_FRM_SetHousingFrame, 
 			/*"const wchar_t *text="*/ NULL, 
@@ -263,29 +265,63 @@ static LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			/*"int height 	      ="*/ 90, 
 			/*"BuddyInfo *buddy   ="*/ NULL);
 			
+			HWND hwnd_AdjustHousingFrame = CreateButton(
+                        /*"HWND parent        ="*/ hwnd,
+                        /*"int controlId      ="*/ ID_FRM_AdjustHousingFrame,
+                        /*"const wchar_t *text="*/ NULL,
+                        /*"int x              ="*/ 15,
+                        /*"int y              ="*/ 130,
+                        /*"int width          ="*/ 300,
+                        /*"int height         ="*/ 120,
+                        /*"BuddyInfo *buddy   ="*/ NULL);
 
 
+
+
+			/*HWND hwnd_FarmerBlockInc = */CreateButton(
+                        /*"HWND parent        ="*/ hwnd_AdjustHousingFrame,
+                        /*"int controlId      ="*/ ID_BTN_FarmerBlockInc,
+                        /*"const wchar_t *text="*/ L"Farmer Block\r\n+1",
+                        /*"int x              ="*/ 10,
+                        /*"int y              ="*/ 20,
+                        /*"int width          ="*/ 100,
+                        /*"int height         ="*/ 40,
+                        /*"BuddyInfo *buddy   ="*/ NULL);
+
+			/*HWND hwnd_FarmerBlockDec = */CreateButton(
+                        /*"HWND parent        ="*/ hwnd_AdjustHousingFrame,
+                        /*"int controlId      ="*/ ID_BTN_FarmerBlockDec,
+                        /*"const wchar_t *text="*/ L"Farmer Block\r\n-1",
+                        /*"int x              ="*/ 10,
+                        /*"int y              ="*/ 60,
+                        /*"int width          ="*/ 100,
+                        /*"int height         ="*/ 40,
+                        /*"BuddyInfo *buddy   ="*/ NULL);
+			
+			
+			
 
 			HWND hwnd_HousingWidth = CreateButton(
-			/*"HWND parent        ="*/ hwnd, 
+			/*"HWND parent        ="*/ hwnd_SetHousingFrame, 
 			/*"int controlId      ="*/ ID_FLD_HousingWidth,
         		/*"const wchar_t *text="*/ L"Width",
-			/*"int x              ="*/ 30,
-                        /*"int y              ="*/ 50,
+			/*"int x              ="*/ 15,
+                        /*"int y              ="*/ 40,
                         /*"int width          ="*/ 30,
                         /*"int height         ="*/ 20,
                         /*"BuddyInfo *buddy   ="*/ NULL);
 
 
 			HWND hwnd_HousingLength = CreateButton(
-	      		/*"HWND parent        ="*/ hwnd,
+	      		/*"HWND parent        ="*/ hwnd_SetHousingFrame,
                         /*"int controlId      ="*/ ID_FLD_HousingLength,
                         /*"const wchar_t *text="*/ L"Length",
-                        /*"int x              ="*/ 80,
-                        /*"int y              ="*/ 50,
+                        /*"int x              ="*/ 65,
+                        /*"int y              ="*/ 40,
                         /*"int width          ="*/ 30,
                         /*"int height         ="*/ 20,
                         /*"BuddyInfo *buddy   ="*/ NULL);
+
 
 
 
@@ -298,11 +334,11 @@ static LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			SPN_HousingWidth.initialVal = 1;
 	
 			/*HWND hwnd_HousingWidthSPN = */CreateButton(
-	                /*"HWND parent        ="*/ hwnd,
+	                /*"HWND parent        ="*/ hwnd_SetHousingFrame,
                         /*"int controlId      ="*/ ID_SPN_HousingWidth,
                         /*"const wchar_t *text="*/ NULL,
-                        /*"int x              ="*/ 35,
-                        /*"int y              ="*/ 70,
+                        /*"int x              ="*/ 20,
+                        /*"int y              ="*/ 60,
                         /*"int width          ="*/ 50,
                         /*"int height         ="*/ 20,
                         /*"BuddyInfo *buddy   ="*/ &SPN_HousingWidth);
@@ -316,35 +352,36 @@ static LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			SPN_HousingLength.initialVal = 8;
 
 			/*HWND hwnd_HousingLengthSPN = */CreateButton(
-                        /*"HWND parent        ="*/ hwnd,
+                        /*"HWND parent        ="*/ hwnd_SetHousingFrame,
                         /*"int controlId      ="*/ ID_SPN_HousingLength,
                         /*"const wchar_t *text="*/ NULL,
-                        /*"int x              ="*/ 85,
-                        /*"int y              ="*/ 70,
+                        /*"int x              ="*/ 70,
+                        /*"int y              ="*/ 60,
                         /*"int width          ="*/ 50,
                         /*"int height         ="*/ 20,
                         /*"BuddyInfo *buddy   ="*/ &SPN_HousingLength);
 
 
 
+
 			
 			/*HWND hwnd_HousingWidthLBL = */CreateButton(
-			/*"HWND parent        ="*/ hwnd,
+			/*"HWND parent        ="*/ hwnd_SetHousingFrame,
                         /*"int controlId      ="*/ ID_LBL_HousingWidth,
                         /*"const wchar_t *text="*/ L"Width",
-                        /*"int x              ="*/ 25,
-                        /*"int y              ="*/ 30,
+                        /*"int x              ="*/ 10,
+                        /*"int y              ="*/ 20,
                         /*"int width          ="*/ 40,
                         /*"int height         ="*/ 20,
                         /*"BuddyInfo *buddy   ="*/ NULL);
 			
 			
 			/*HWND hwnd_HousingLengthLBL = */CreateButton(
-                        /*"HWND parent        ="*/ hwnd,
+                        /*"HWND parent        ="*/ hwnd_SetHousingFrame,
                         /*"int controlId      ="*/ ID_LBL_HousingLength,
                         /*"const wchar_t *text="*/ L"Length",
-                        /*"int x              ="*/ 75,
-                        /*"int y              ="*/ 30,
+                        /*"int x              ="*/ 60,
+                        /*"int y              ="*/ 20,
                         /*"int width          ="*/ 45,
                         /*"int height         ="*/ 20,
                         /*"BuddyInfo *buddy   ="*/ NULL);
