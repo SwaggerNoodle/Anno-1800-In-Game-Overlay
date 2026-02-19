@@ -4,6 +4,7 @@
 #define TEXTFIELD (WS_CHILD | WS_VISIBLE | WS_BORDER | ES_NUMBER | ES_AUTOHSCROLL)
 #define STATICLABEL (WS_CHILD | WS_VISIBLE)
 #define SPINNERBUTTON (WS_CHILD | WS_VISIBLE | UDS_SETBUDDYINT | UDS_ARROWKEYS | UDS_NOTHOUSANDS)
+#define DISPLAY (WS_CHILD | WS_VISIBLE | WS_BORDER | SS_SUNKEN)
 
 #define BUTTON (L"BUTTON")
 #define EDIT (L"EDIT")
@@ -24,6 +25,7 @@ enum {
 
 	ID_FRM_SetHousingFrame = 2001,
 	ID_FRM_AdjustHousingFrame = 2002,
+	ID_FRM_ResourceReqFrame = 2003,
 
 	ID_FLD_HousingWidth = 3001,
 	ID_FLD_HousingLength = 3002,
@@ -32,7 +34,11 @@ enum {
 	ID_LBL_HousingLength = 4002,
 
 	ID_SPN_HousingWidth = 5001,
-	ID_SPN_HousingLength = 5002
+	ID_SPN_HousingLength = 5002,
+
+	ID_DSP_Fish = 6001,
+	ID_DSP_Clothes = 6002,
+	ID_DSP_Schnnaps = 6003
 };
 
 
@@ -178,6 +184,10 @@ static HWND CreateButton(HWND parent, int controlId, const wchar_t *text, int x,
 		style = SPINNERBUTTON;
 		class = SPINNER;
 	}
+	else if (controlId < 7000){
+		style = DISPLAY;
+		class = STATIC;
+	}
 
 	
 	HWND button = CreateWindowExW(
@@ -216,8 +226,8 @@ static HWND CreateMainWindow(HINSTANCE hInstance){
 	/*"dwStyle     =*/ WS_OVERLAPPEDWINDOW,
 	/*"x	       =*/ CW_USEDEFAULT,
 	/*"y	       =*/ CW_USEDEFAULT,
-	/*"width       =*/ 360,
-	/*"height      =*/ 250,
+	/*"width       =*/ 380,
+	/*"height      =*/ 430,
 	/*"hwndParent  =*/ NULL,
 	/*"hMenu       =*/ NULL,
 	/*"hInstance   =*/ hInstance,
@@ -231,6 +241,7 @@ static HWND CreateMainWindow(HINSTANCE hInstance){
 static LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
 	
 	switch(msg){
+
 		
 		//This msg indicates that a window needs to be created
 		case WM_CREATE:{
@@ -262,7 +273,7 @@ static LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			/*"int x 	      ="*/ 15, 
 			/*"int y 	      ="*/ 10, 
 			/*"int width 	      ="*/ 110, 
-			/*"int height 	      ="*/ 90, 
+			/*"int height 	      ="*/ 90,//100 
 			/*"BuddyInfo *buddy   ="*/ NULL);
 			
 			HWND hwnd_AdjustHousingFrame = CreateButton(
@@ -270,10 +281,21 @@ static LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
                         /*"int controlId      ="*/ ID_FRM_AdjustHousingFrame,
                         /*"const wchar_t *text="*/ NULL,
                         /*"int x              ="*/ 15,
-                        /*"int y              ="*/ 130,
-                        /*"int width          ="*/ 300,
-                        /*"int height         ="*/ 120,
+                        /*"int y              ="*/ 110,
+                        /*"int width          ="*/ 330,
+                        /*"int height         ="*/ 120,//230
                         /*"BuddyInfo *buddy   ="*/ NULL);
+
+			HWND hwnd_ResourceReqFrame = CreateButton(
+                        /*"HWND parent        ="*/ hwnd,
+                        /*"int controlId      ="*/ ID_FRM_ResourceReqFrame,
+                        /*"const wchar_t *text="*/ NULL,
+                        /*"int x              ="*/ 15,
+                        /*"int y              ="*/ 240,
+                        /*"int width          ="*/ 330,
+                        /*"int height         ="*/ 120,//360
+                        /*"BuddyInfo *buddy   ="*/ NULL);
+
 
 
 
@@ -386,6 +408,40 @@ static LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
                         /*"int height         ="*/ 20,
                         /*"BuddyInfo *buddy   ="*/ NULL);
 
+
+
+
+
+
+ 		        /*HWND hwnd_Fish = */CreateButton(
+                        /*"HWND parent        ="*/ hwnd_ResourceReqFrame,
+                        /*"int controlId      ="*/ ID_DSP_Fish,
+                        /*"const wchar_t *text="*/ L"Required Fish:",
+                        /*"int x              ="*/ 10,
+                        /*"int y              ="*/ 20,
+                        /*"int width          ="*/ 100,//110
+                        /*"int height         ="*/ 40,
+                        /*"BuddyInfo *buddy   ="*/ NULL);
+
+			/*HWND hwnd_Clothes = */CreateButton(
+                        /*"HWND parent        ="*/ hwnd_ResourceReqFrame,
+                        /*"int controlId      ="*/ ID_DSP_Clothes,
+                        /*"const wchar_t *text="*/ L"Required Clothes:",
+                        /*"int x              ="*/ 115,
+                        /*"int y              ="*/ 20,
+                        /*"int width          ="*/ 100,//215
+                        /*"int height         ="*/ 40,
+                        /*"BuddyInfo *buddy   ="*/ NULL);
+			
+			/*HWND hwnd_Schnnaps = */CreateButton(
+                        /*"HWND parent        ="*/ hwnd_ResourceReqFrame,
+                        /*"int controlId      ="*/ ID_DSP_Schnnaps,
+                        /*"const wchar_t *text="*/ L"Required Fish:",
+                        /*"int x              ="*/ 220,
+                        /*"int y              ="*/ 20,
+                        /*"int width          ="*/ 100,//320
+                        /*"int height         ="*/ 40,
+                        /*"BuddyInfo *buddy   ="*/ NULL);
 
 			return 0;
 		}
