@@ -18,6 +18,7 @@ enum {
 
         ID_LBL_HousingWidth = 4001,
         ID_LBL_HousingLength = 4002,
+	ID_LBL_DragBar = 4100,
 
         ID_SPN_HousingWidth = 5001,
         ID_SPN_HousingLength = 5002,

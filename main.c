@@ -1,6 +1,7 @@
 #define WIN32_LEAN_AND_MEAN
 
 #include <windows.h>
+#include <windowsx.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <commctrl.h>
@@ -198,6 +199,15 @@ static LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 									     45,
 									     20,
 									     NULL);
+			      HWND hwnd_DragBar = CreateUiComponent(g_hInstance,
+					      			    hwnd,
+								    ID_LBL_DragBar,
+								    NULL,
+								    0,
+								    0,
+								    200,
+								    10,
+								    NULL);
 
 
 
@@ -243,6 +253,7 @@ static LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 
 
 
+
 			      return 0;
 		}
 
@@ -261,6 +272,24 @@ static LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				}
 
 				break;
+		}
+
+		case WM_NCHITTEST:{
+
+				LRESULT hit = DefWindowProcW(hwnd, msg, wParam, lParam);
+
+				if (hit == HTCLIENT){
+					POINT pt;
+					pt.x = GET_X_LPARAM(lParam);
+					pt.y = GET_Y_LPARAM(lParam);
+
+					ScreenToClient(hwnd, &pt);
+
+					if (pt.y >= 0 && pt.y < 10){
+						return HTCAPTION;
+					}
+				}
+				return hit;
 		}
 
 		case WM_DESTROY:{
