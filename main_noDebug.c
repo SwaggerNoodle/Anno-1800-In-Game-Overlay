@@ -64,20 +64,59 @@ static LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
  * notifyCode : what happened (clicked, double clicked, focus, etc.)
  * controlHwnd : the handle of the control window itself.
  */
-typedef struct CommandInfo{
+typedef struct {
 	int controlId;
 	int notifyCode;
 	HWND controlHwnd;
+
 } CommandInfo;
 
-typedef struct buddyInfo{
+typedef struct {
 	HWND buddyHWND;
 	int minVal;
 	int maxVal;
 	int initialVal;
+
 } BuddyInfo;
 
-/* When Windows creates/sends a command it stres the information for the command in WPARAM and LPARAM.
+
+
+typedef struct {
+	int width;
+	int height;
+
+	int houseNum;
+
+} HousingDimentions;
+
+typedef struct {
+	int farmerCount;
+
+} HousingCount;
+
+typedef struct {
+	int fishNeed;
+	int clothesNeed;
+	int schnnapsNeed;
+} NeedReq;
+
+
+
+typedef struct {
+	HousingDimentions islandBlockSize;
+	HousingCount islandPopulation;
+	NeedReq islandNeeds;
+} IslandData;
+
+typedef struct {
+	IslandData Capital;
+	IslandData island1;
+	IslandData island2;
+	IslandData island3;
+
+} AppData;
+
+/* When Windows creates/sends a command it stores the information for the command in WPARAM and LPARAM.
  * The DecodeWmCommand takes these two parameters, extracts the information and then stores it in the 
  * CommandInfo stuct.
  *
@@ -246,6 +285,9 @@ static LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		//This msg indicates that a window needs to be created
 		case WM_CREATE:{
 			
+			AppData *mainData = calloc(1, sizeof(*mainData));
+
+
 			/*HWND hwnd_ = CreateButton(*/
                         /*"HWND parent        ="*/ 
                         /*"int controlId      ="*/ 
@@ -430,7 +472,8 @@ static LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
                         /*"int x              ="*/ 115,
                         /*"int y              ="*/ 20,
                         /*"int width          ="*/ 100,//215
-                        /*"int height         ="*/ 40,
+        
+                /*"int height         ="*/ 40,
                         /*"BuddyInfo *buddy   ="*/ NULL);
 			
 			/*HWND hwnd_Schnnaps = */CreateButton(
@@ -461,7 +504,15 @@ static LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 					MessageBoxW(hwnd, L"Test Sucsessful", L"Test Notification", MB_OK | MB_ICONINFORMATION);
 					return 0;
 				}
-			}	
+			}
+			else if (ci.notifyCode == EN_CHANGE){
+				
+				if (ci.controlId == ID_FLD_HousingWidth){
+
+					
+
+				}
+			}
 			break;
 		}
 
