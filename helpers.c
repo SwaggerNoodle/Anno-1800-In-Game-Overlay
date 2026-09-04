@@ -71,6 +71,13 @@ void ButtonClicked(int ButtonID, IslandData *island){
 		case ID_BTN_FarmerBlockDec:
 			island->islandPopulation.farmerHCount -= island->islandBlockSize.houseNum;
 			break;
+		case ID_BTN_WorkerBlockInc:
+			island->islandPopulation.workerHCount += island->islandBlockSize.houseNum;
+			island->islandPopulation.farmerHCount -= island->islandBlockSize.houseNum;
+			break;
+		case ID_BTN_WorkerBlockDec:
+			island->islandPopulation.workerHCount -= island->islandBlockSize.houseNum;
+			break;
 		default:
 			break;
 	}

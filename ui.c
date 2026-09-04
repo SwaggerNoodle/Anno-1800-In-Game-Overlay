@@ -70,6 +70,25 @@ void CreateUiButtons(HINSTANCE hInstance, HWND hwnd, OverlayState *overlay){
                                                        100,
                                                        40,
                                                        NULL);
+	overlay->ui.workerBlockInc = CreateUiComponent(hInstance,
+						       hwnd,
+						       ID_BTN_WorkerBlockInc,
+						       L"Worker Block\r\n+1",
+						       GRID_AdjustHousingFrameXPos + 110,
+						       GRID_AdjustHousingFrameYPos + 20,
+						       100,
+						       40,
+						       NULL);
+	overlay->ui.workerBlockDec = CreateUiComponent(hInstance,
+						       hwnd,
+						       ID_BTN_WorkerBlockDec,
+						       L"Worker Block\r\n-1",
+						       GRID_AdjustHousingFrameXPos + 110,
+						       GRID_AdjustHousingFrameYPos + 60,
+						       100,
+						       40,
+						       NULL);
+
 	overlay->ui.capitalIslandSel = CreateUiComponent(hInstance,
 							hwnd,
 							ID_BTN_CapitalIslandSel,
@@ -113,7 +132,7 @@ void CreateUiFields(HINSTANCE hInstance, HWND hwnd, OverlayState *overlay){
 	overlay->ui.housingWidth = CreateUiComponent(hInstance,
                                                      hwnd,
                                                      ID_FLD_HousingWidth,
-                                                     L"1",
+                                                     L"2",
                                                      GRID_SetHousingFrameXPos + 15,
                                                      GRID_SetHousingFrameYPos + 40,
                                                      30,
@@ -122,7 +141,7 @@ void CreateUiFields(HINSTANCE hInstance, HWND hwnd, OverlayState *overlay){
 	overlay->ui.housingLength = CreateUiComponent(hInstance,
                                                       hwnd,
                                                       ID_FLD_HousingLength,
-                                                      L"8",
+                                                      L"10",
                                                       GRID_SetHousingFrameXPos + 65,
                                                       GRID_SetHousingFrameYPos + 40,
                                                       30,
@@ -170,7 +189,7 @@ void CreateUiSpinners(HINSTANCE hInstance, HWND hwnd, OverlayState *overlay){
         SPN_HousingWidth.childHWND = overlay->ui.housingWidth;
         SPN_HousingWidth.minVal = 1;
         SPN_HousingWidth.maxVal = 2;
-        SPN_HousingWidth.initialVal = 1;
+        SPN_HousingWidth.initialVal = 2;
         overlay->ui.housingWidthSPN = CreateUiComponent(hInstance,
                                                         hwnd,
                                                         ID_SPN_HousingWidth,
@@ -183,8 +202,8 @@ void CreateUiSpinners(HINSTANCE hInstance, HWND hwnd, OverlayState *overlay){
         SpinnerConfig SPN_HousingLength;
         SPN_HousingLength.childHWND = overlay->ui.housingLength;
         SPN_HousingLength.minVal = 1;
-        SPN_HousingLength.maxVal = 12;
-        SPN_HousingLength.initialVal = 8;
+        SPN_HousingLength.maxVal = 14;
+        SPN_HousingLength.initialVal = 10;
         overlay->ui.housingLengthSPN = CreateUiComponent(hInstance,
                                                          hwnd,
                                                          ID_SPN_HousingLength,

@@ -21,11 +21,13 @@ enum {
 	ID_BTN_Close = 2001,
         ID_BTN_FarmerBlockInc = 2002,
         ID_BTN_FarmerBlockDec = 2003,
+	ID_BTN_WorkerBlockInc = 2004,
+	ID_BTN_WorkerBlockDec = 2005,
 
-	ID_BTN_CapitalIslandSel = 2004,
-	ID_BTN_Island1Sel = 2005,
-	ID_BTN_Island2Sel = 2006,
-	ID_BTN_Island3Sel = 2007,
+	ID_BTN_CapitalIslandSel = 2101,
+	ID_BTN_Island1Sel = 2102,
+	ID_BTN_Island2Sel = 2103,
+	ID_BTN_Island3Sel = 2104,
 
 
         ID_FLD_HousingWidth = 3001,
@@ -119,6 +121,9 @@ typedef struct OverlayUi{
 	HWND closeWindowBtn;
 	HWND farmerBlockInc;
 	HWND farmerBlockDec;
+	HWND workerBlockInc;
+	HWND workerBlockDec;
+
 	HWND capitalIslandSel;
 	HWND island1Sel;
 	HWND island2Sel;
