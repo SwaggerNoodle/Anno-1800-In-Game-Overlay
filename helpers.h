@@ -4,6 +4,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <commctrl.h>
+#include <strsafe.h>
 
 #include "dataStructs.h"
 
@@ -29,6 +30,11 @@ CommandInfo DecodeWmCommand(WPARAM wParam, LPARAM lParam);
 /*This function is used to create each of the UI components in the program.*/
 HWND CreateUiComponent(HINSTANCE hInstance, HWND parent, int controlId, const wchar_t *windowName, int x, int y, int width, int height, SpinnerConfig *configData);
 
+void ButtonClicked(int ButtonID, IslandData *island);
+
+void SetDisplay(HWND display, const wchar_t *label, int value);
+
+int GetValueFromSpinner(HWND spinnerHandle);
 #endif
 
 

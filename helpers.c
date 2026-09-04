@@ -1,5 +1,6 @@
 #include "helpers.h"
 
+
 CommandInfo DecodeWmCommand(WPARAM wParam, LPARAM lParam){
 	CommandInfo info;
 
@@ -17,11 +18,11 @@ HWND CreateUiComponent(HINSTANCE g_hInstance, HWND parent, int controlId, const 
 	LPCWSTR class = NULL;
 
 	if (controlId < 2000){
-		style = PUSHBUTTON;
+		style = FRAMEBUTTON;
 		class = BUTTON;
 	}
 	else if (controlId < 3000){
-		style = FRAMEBUTTON;
+		style = PUSHBUTTON;
 		class = BUTTON;
 	}
 	else if (controlId < 4000){
@@ -61,10 +62,43 @@ HWND CreateUiComponent(HINSTANCE g_hInstance, HWND parent, int controlId, const 
 	return component;
 }
 
+void ButtonClicked(int ButtonID, IslandData *island){
+	
+	switch(ButtonID){
+		case ID_BTN_FarmerBlockInc:
+			island->islandPopulation.farmerHCount += island->islandBlockSize.houseNum;
+			break;
+		case ID_BTN_FarmerBlockDec:
+			island->islandPopulation.farmerHCount -= island->islandBlockSize.houseNum;
+			break;
+		default:
+			break;
+	}
+}
 
+void SetDisplay(HWND display, const wchar_t *label, int value){
 
+	wchar_t text[128];
 
+	StringCchPrintfW(text,
+			 128,
+			 L"%s\r\n%d",
+			 label,
+			 value);
 
+	SetWindowTextW(display, text);
+}
+
+int GetValueFromSpinner(HWND spinnerHandle){
+
+	wchar_t buffer[32];
+
+	GetWindowTextW(spinnerHandle, buffer, 32);
+
+	int value = _wtoi(buffer);
+
+	return value;
+}
 
 
 
