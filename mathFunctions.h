@@ -10,8 +10,8 @@
 
 #define SAUSAGEOUTPUT 50
 #define BREADOUTPUT 55
-#define SOAPOUTPUT 240
 #define BEEROUTPUT 65
+#define SOAPOUTPUT 240
 
 #define TINNEDFOODOUTPUT 65
 #define SOWINGMACHINEOUTPUT 70
@@ -37,6 +37,14 @@ int RecalculateFishNeed(HousingCount *housingCount);
 int RecalculateClothesNeed(HousingCount *housingCount);
 
 int RecalculateSchnnapsNeed(HousingCount *housingCount);
+
+int RecalculateSausageNeed(HousingCount *housingCount);
+
+int RecalculateBreadNeed(HousingCount *housingCount);
+
+int RecalculateBeerNeed(HousingCount *housingCount);
+
+int RecalculateSoapNeed(HousingCount *housingCount);
 
 void RecalculateDisplayValues(IslandData *island, OverlayUi *uiHandle);
 

@@ -45,7 +45,11 @@ enum {
 
         ID_DSP_Fish = 6001,
         ID_DSP_Clothes = 6002,
-        ID_DSP_Schnnaps = 6003
+        ID_DSP_Schnnaps = 6003,
+	ID_DSP_Sausage = 6004,
+	ID_DSP_Bread = 6005,
+	ID_DSP_Beer = 6006,
+	ID_DSP_Soap = 6007
 };
 enum {
 
@@ -142,6 +146,10 @@ typedef struct OverlayUi{
 	HWND fishDSP;
 	HWND clothesDSP;
 	HWND schnnapsDSP;
+	HWND sausageDSP;
+	HWND breadDSP;
+	HWND beerDSP;
+	HWND soapDSP;
 } OverlayUi;
 typedef struct OverlayState{
 	OverlayData data;

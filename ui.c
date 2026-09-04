@@ -28,7 +28,7 @@ void CreateUiFrames(HINSTANCE hInstance, HWND hwnd, OverlayState *overlay){
                                                          GRID_ResourceReqFrameXPos,
                                                          GRID_ResourceReqFrameYPos,
                                                          330,
-                                                         120,
+                                                         150,
                                                          NULL);
         overlay->ui.islandSelectionFrame = CreateUiComponent(hInstance,
                                                              hwnd,
@@ -244,6 +244,42 @@ void CreateUiDisplays(HINSTANCE hInstance, HWND hwnd, OverlayState *overlay){
                                                     100,
                                                     40,
                                                     NULL);
+	overlay->ui.sausageDSP = CreateUiComponent(hInstance,
+						   hwnd,
+						   ID_DSP_Sausage,
+						   L"Butchers Req:\r\n0",
+						   GRID_ResourceReqFrameXPos + 10,
+						   GRID_ResourceReqFrameYPos + 60,
+						   100,
+						   40,
+						   NULL);
+	overlay->ui.breadDSP = CreateUiComponent(hInstance,
+						 hwnd,
+						 ID_DSP_Bread,
+						 L"Bakeries Req:\r\n0",
+						 GRID_ResourceReqFrameXPos + 115,
+						 GRID_ResourceReqFrameYPos + 60,
+						 100,
+						 40,
+						 NULL);
+	overlay->ui.beerDSP = CreateUiComponent(hInstance,
+						hwnd,
+						ID_DSP_Beer,
+						L"Brewery Req:\r\n0",
+						GRID_ResourceReqFrameXPos + 220,
+						GRID_ResourceReqFrameYPos + 60,
+						100,
+						40,
+						NULL);
+	overlay->ui.soapDSP = CreateUiComponent(hInstance,
+						hwnd,
+						ID_DSP_Soap,
+						L"Soapery Req:\r\n0",
+						GRID_ResourceReqFrameXPos + 10,
+						GRID_ResourceReqFrameYPos + 100,
+						100,
+						40,
+						NULL);
 }
 
 
